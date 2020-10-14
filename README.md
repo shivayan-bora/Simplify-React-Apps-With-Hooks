@@ -1,18 +1,6 @@
 # react-github-profile
 
-An app I'm going to use to teach people about React 👍
-
-## Setup
-
-TODO
-
-## Notes
-
-### Folder structure
-
-The folder structure comes from [this gist](https://gist.github.com/ryanflorence/daafb1e3cb8ad740b346)
-
-I'm a big fan of it. That's why we're using it :)
+An app to follow the tutorial from Kent C Dodds on [Simplifying React Apps with React Hooks](https://egghead.io/lessons/react-introduction-to-refactoring-a-react-application-to-react-hooks). Here we will convert an existing App using older class components and standards into new functional components using hooks and suspense.
 
 ## LICENSE
 
