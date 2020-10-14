@@ -1,15 +1,20 @@
-import {useContext, useEffect, useReducer} from 'react'
+import {useContext, useEffect, useReducer, useRef} from 'react'
 import PropTypes from 'prop-types'
 import * as GitHub from '../../../github-client'
+import isEqual from 'lodash/isEqual'
 
 const Query = ({query, variables, children, normalize = data => data}) => {
   const client = useContext(GitHub.Context)
+  
   const [state, setState] = useReducer(
     (state, newState) =>({...state, ...newState}),
     {loaded: false, fetching: false, data: null, error: null}
   )
 
   useEffect(() =>{
+    if(isEqual(previousInputs.current, [query,variables])) {
+      return
+    }
     setState({fetching: true})
     client
       .request(query, variables)
@@ -29,8 +34,15 @@ const Query = ({query, variables, children, normalize = data => data}) => {
           fetching: false,
         }),
       )
-  }, [query, variables]);
-  return children(state);
+  });
+
+  const previousInputs = useRef()
+
+  useEffect(() => {
+    previousInputs.current = [query, variables]
+  })
+
+  return children(state)
 }
 
 Query.propTypes = {
