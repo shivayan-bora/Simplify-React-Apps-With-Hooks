@@ -9,7 +9,7 @@ function useSetState(initialState) {
     initialState,
   )
   
-  return [state, setState];
+  return [state, setState]
 }
 
 function useSafeSetState(initialState) {
@@ -22,7 +22,17 @@ function useSafeSetState(initialState) {
   
   const safeSetState = (...args) => mountedRef.current && setState(...args)
 
-  return [state, safeSetState];
+  return [state, safeSetState]
+}
+
+function usePrevious(value) {
+    const ref = useRef()
+  
+    useEffect(() => {
+      ref.current = value
+    })
+
+    return ref.current
 }
 
 const Query = ({query, variables, children, normalize = data => data}) => {
@@ -31,7 +41,7 @@ const Query = ({query, variables, children, normalize = data => data}) => {
 
 
   useEffect(() =>{
-    if(isEqual(previousInputs.current, [query,variables])) {
+    if(isEqual(previousInputs, [query,variables])) {
       return
     }
     safeSetState({fetching: true})
@@ -55,11 +65,7 @@ const Query = ({query, variables, children, normalize = data => data}) => {
       )
   });
 
-  const previousInputs = useRef()
-
-  useEffect(() => {
-    previousInputs.current = [query, variables]
-  })
+  const previousInputs = usePrevious([query, variables])
 
   return children(state)
 }
