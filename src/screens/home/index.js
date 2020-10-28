@@ -1,6 +1,7 @@
 /* @jsx jsx */
 import {jsx} from '@emotion/core'
 
+import { useEffect } from "react";
 import {navigate} from '@reach/router'
 import {Input, PrimaryButton, IsolatedContainer} from '../../shared/pattern'
 
@@ -11,6 +12,13 @@ function handleSubmit(e) {
 }
 
 function Home() {
+
+  useEffect(() => {
+    // preload the next page
+    // With the availablitiy of WebPack, we can just import the module
+    import('../user');
+  }, [])
+
   return (
     <IsolatedContainer>
       <form
